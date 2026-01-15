@@ -1,0 +1,124 @@
+.city-wise-section {
+  padding: 60px 5%;
+  background: var(--bg-light);
+}
+
+.city-wise-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.city-wise-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--text-dark);
+}
+
+.city-wise-subtitle {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 1.1rem;
+  margin-bottom: 50px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.city-wise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.city-wise-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-dark);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.city-wise-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: #333333;
+}
+
+.city-wise-image-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: var(--bg-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.city-wise-card:hover .city-wise-image-wrapper {
+  transform: scale(1.05);
+}
+
+.city-wise-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.city-wise-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.city-wise-card:hover .city-wise-card-title {
+  color: #333333;
+}
+
+@media (max-width: 768px) {
+  .city-wise-section {
+    padding: 60px 20px;
+  }
+
+  .city-wise-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .city-wise-card {
+    padding: 20px;
+  }
+
+  .city-wise-image-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .city-wise-card-title {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .city-wise-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+

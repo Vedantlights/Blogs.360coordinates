@@ -1,0 +1,47 @@
+.welcome-section {
+  background: var(--white);
+  padding-top: 80px;
+}
+
+.welcome-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.welcome-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.welcome-content {
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.welcome-content p {
+  font-size: 18px;
+  color: #222425;
+  margin-bottom: 20px;
+}
+
+.welcome-content strong {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .welcome-section {
+    padding: 60px 20px;
+  }
+
+  .welcome-content p {
+    font-size: 15px;
+    text-align: left;
+  }
+}
+
