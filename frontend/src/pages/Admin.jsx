@@ -1,141 +1,253 @@
 import { useState, useEffect } from 'react'
+import { adminAPI, categoryAPI } from '../services/api'
+import { API_BASE_URL } from '../config/api'
 import './Admin.css'
 
-// Dummy initial blogs data
-const initialBlogs = [
-  {
-    id: 1,
-    title: 'Is 2026 the Right Time to Invest in Indian Real Estate?',
-    content: 'Explore market trends, government policies, and expert predictions to make informed investment decisions.',
-    category: 'Investment',
-    image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6',
-    createdAt: '2024-01-15'
-  },
-  {
-    id: 2,
-    title: 'Top 7 Mistakes First-Time Home Buyers Make in India',
-    content: 'Avoid common pitfalls and make your first property purchase smooth and successful with these expert tips.',
-    category: 'Buy',
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9',
-    createdAt: '2024-01-10'
-  },
-  {
-    id: 3,
-    title: 'RERA Act: Complete Guide for Property Buyers',
-    content: 'Understand how RERA protects your interests and what you need to know before buying property.',
-    category: 'Legal',
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
-    createdAt: '2024-01-05'
-  }
-]
-
-const categories = ['Buy', 'Rent', 'Investment', 'Legal', 'Tips', 'News']
-
 function Admin() {
-  const [blogs, setBlogs] = useState(initialBlogs)
+  const [blogs, setBlogs] = useState([])
+  const [categories, setCategories] = useState([])
   const [editingBlog, setEditingBlog] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+  const [uploading, setUploading] = useState({ image: false, featured: false })
+  const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(null)
   const [formData, setFormData] = useState({
     title: '',
+    slug: '',
     content: '',
-    category: 'Buy',
-    image: ''
+    excerpt: '',
+    category_id: '',
+    image_url: '',
+    featured_image: '',
+    is_featured: false,
+    is_published: false,
+    meta_title: '',
+    meta_description: '',
+    meta_keywords: ''
   })
+  const [imagePreview, setImagePreview] = useState({ image: null, featured: null })
 
   useEffect(() => {
     document.title = 'Admin Panel - Blog Management'
+    fetchBlogs()
+    fetchCategories()
   }, [])
 
+  const fetchBlogs = async () => {
+    try {
+      setLoading(true)
+      const response = await adminAPI.blogs.getAll()
+      if (response.success) {
+        setBlogs(response.data || [])
+      }
+    } catch (err) {
+      console.error('Error fetching blogs:', err)
+      setError(err.message || 'Failed to load blogs')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const fetchCategories = async () => {
+    try {
+      const response = await categoryAPI.getAll()
+      if (response.success) {
+        setCategories(response.data || [])
+      }
+    } catch (err) {
+      console.error('Error fetching categories:', err)
+    }
+  }
+
+  // Generate slug from title
+  const generateSlug = (title) => {
+    return title
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+  }
+
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value, type, checked } = e.target
     setFormData({
       ...formData,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : value
     })
+    
+    // Auto-generate slug from title
+    if (name === 'title' && !editingBlog) {
+      setFormData(prev => ({
+        ...prev,
+        slug: generateSlug(value)
+      }))
+    }
+    
+    // Clear messages
+    if (error) setError(null)
+    if (success) setSuccess(null)
   }
 
-  const handleImageChange = (e) => {
+  const handleImageUpload = async (e, type = 'image') => {
     const file = e.target.files[0]
-    if (file) {
-      // Create a local URL for preview (in real app, this would upload to server)
+    if (!file) return
+
+    // Validate file type
+    if (!file.type.match('image.*')) {
+      setError('Please select an image file')
+      return
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image size must be less than 5MB')
+      return
+    }
+
+    try {
+      setUploading(prev => ({ ...prev, [type]: true }))
+      setError(null)
+
+      // Create preview
       const reader = new FileReader()
       reader.onloadend = () => {
-        setFormData({
-          ...formData,
-          image: reader.result
-        })
+        setImagePreview(prev => ({ ...prev, [type]: reader.result }))
       }
       reader.readAsDataURL(file)
+
+      // Upload file
+      const response = await adminAPI.upload.image(file)
+      
+      if (response.success) {
+        const fieldName = type === 'image' ? 'image_url' : 'featured_image'
+        setFormData(prev => ({
+          ...prev,
+          [fieldName]: response.data.url
+        }))
+        setSuccess(`${type === 'image' ? 'Image' : 'Featured image'} uploaded successfully!`)
+        setTimeout(() => setSuccess(null), 3000)
+      } else {
+        setError(response.message || 'Failed to upload image')
+      }
+    } catch (err) {
+      console.error('Error uploading image:', err)
+      setError(err.message || 'Failed to upload image')
+    } finally {
+      setUploading(prev => ({ ...prev, [type]: false }))
     }
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    
-    if (editingBlog) {
-      // Update existing blog
-      setBlogs(blogs.map(blog => 
-        blog.id === editingBlog.id 
-          ? { ...formData, id: editingBlog.id, createdAt: editingBlog.createdAt }
-          : blog
-      ))
-      alert('Blog updated successfully!')
-    } else {
-      // Create new blog
-      const newBlog = {
-        id: Date.now(),
-        ...formData,
-        createdAt: new Date().toISOString().split('T')[0]
-      }
-      setBlogs([...blogs, newBlog])
-      alert('Blog created successfully!')
+  const getImageUrl = (url) => {
+    if (!url) return null
+    // If it's already a full URL, return as is
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url
     }
+    // If it's a relative path, prepend API base URL
+    if (url.startsWith('/')) {
+      return API_BASE_URL.replace('/api', '') + url
+    }
+    return url
+  }
 
-    // Reset form
-    setFormData({
-      title: '',
-      content: '',
-      category: 'Buy',
-      image: ''
-    })
-    setEditingBlog(null)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setError(null)
+    setSuccess(null)
+
+    try {
+      let response
+      if (editingBlog) {
+        // Update existing blog
+        response = await adminAPI.blogs.update(editingBlog.id, formData)
+      } else {
+        // Create new blog
+        response = await adminAPI.blogs.create(formData)
+      }
+
+      if (response.success) {
+        setSuccess(editingBlog ? 'Blog updated successfully!' : 'Blog created successfully!')
+        resetForm()
+        fetchBlogs() // Refresh list
+        setTimeout(() => setSuccess(null), 3000)
+      } else {
+        setError(response.message || 'Operation failed')
+      }
+    } catch (err) {
+      console.error('Error saving blog:', err)
+      setError(err.message || 'Failed to save blog')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const handleEdit = (blog) => {
     setEditingBlog(blog)
     setFormData({
-      title: blog.title,
-      content: blog.content,
-      category: blog.category,
-      image: blog.image
+      title: blog.title || '',
+      slug: blog.slug || '',
+      content: blog.content || '',
+      excerpt: blog.excerpt || '',
+      category_id: blog.category_id || '',
+      image_url: blog.image_url || '',
+      featured_image: blog.featured_image || '',
+      is_featured: blog.is_featured || false,
+      is_published: blog.is_published || false,
+      meta_title: blog.meta_title || '',
+      meta_description: blog.meta_description || '',
+      meta_keywords: blog.meta_keywords || ''
     })
-    // Scroll to form
+    // Set preview images
+    setImagePreview({
+      image: blog.image_url ? getImageUrl(blog.image_url) : null,
+      featured: blog.featured_image ? getImageUrl(blog.featured_image) : null
+    })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this blog?')) {
-      setBlogs(blogs.filter(blog => blog.id !== id))
-      if (editingBlog && editingBlog.id === id) {
-        setEditingBlog(null)
-        setFormData({
-          title: '',
-          content: '',
-          category: 'Buy',
-          image: ''
-        })
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this blog?')) {
+      return
+    }
+
+    try {
+      const response = await adminAPI.blogs.delete(id)
+      if (response.success) {
+        setSuccess('Blog deleted successfully!')
+        if (editingBlog && editingBlog.id === id) {
+          resetForm()
+        }
+        fetchBlogs() // Refresh list
+        setTimeout(() => setSuccess(null), 3000)
+      } else {
+        setError(response.message || 'Failed to delete blog')
       }
-      alert('Blog deleted successfully!')
+    } catch (err) {
+      console.error('Error deleting blog:', err)
+      setError(err.message || 'Failed to delete blog')
     }
   }
 
-  const handleCancel = () => {
+  const resetForm = () => {
     setEditingBlog(null)
     setFormData({
       title: '',
+      slug: '',
       content: '',
-      category: 'Buy',
-      image: ''
+      excerpt: '',
+      category_id: '',
+      image_url: '',
+      featured_image: '',
+      is_featured: false,
+      is_published: false,
+      meta_title: '',
+      meta_description: '',
+      meta_keywords: ''
     })
+    setImagePreview({ image: null, featured: null })
   }
 
   return (
@@ -152,9 +264,22 @@ function Admin() {
             <h2 className="admin-form-title">
               {editingBlog ? 'Edit Blog Post' : 'Create New Blog Post'}
             </h2>
+            
+            {success && (
+              <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#d4edda', color: '#155724', borderRadius: '4px' }}>
+                {success}
+              </div>
+            )}
+            
+            {error && (
+              <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#f8d7da', color: '#721c24', borderRadius: '4px' }}>
+                {error}
+              </div>
+            )}
+            
             <form className="admin-form" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label htmlFor="title" className="form-label">Title</label>
+                <label htmlFor="title" className="form-label">Title *</label>
                 <input
                   type="text"
                   id="title"
@@ -168,7 +293,22 @@ function Admin() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="content" className="form-label">Content</label>
+                <label htmlFor="slug" className="form-label">Slug *</label>
+                <input
+                  type="text"
+                  id="slug"
+                  name="slug"
+                  value={formData.slug}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="blog-slug-url"
+                  required
+                />
+                <small style={{ color: '#666', fontSize: '0.875rem' }}>URL-friendly version of title</small>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="content" className="form-label">Content *</label>
                 <textarea
                   id="content"
                   name="content"
@@ -176,63 +316,178 @@ function Admin() {
                   onChange={handleInputChange}
                   className="form-textarea"
                   placeholder="Enter blog content"
-                  rows="6"
+                  rows="8"
                   required
                 ></textarea>
               </div>
 
               <div className="form-group">
-                <label htmlFor="category" className="form-label">Category</label>
+                <label htmlFor="excerpt" className="form-label">Excerpt</label>
+                <textarea
+                  id="excerpt"
+                  name="excerpt"
+                  value={formData.excerpt}
+                  onChange={handleInputChange}
+                  className="form-textarea"
+                  placeholder="Short description (used in listings)"
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="category_id" className="form-label">Category</label>
                 <select
-                  id="category"
-                  name="category"
-                  value={formData.category}
+                  id="category_id"
+                  name="category_id"
+                  value={formData.category_id}
                   onChange={handleInputChange}
                   className="form-select"
-                  required
                 >
+                  <option value="">Select Category</option>
                   {categories.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
                   ))}
                 </select>
               </div>
 
               <div className="form-group">
-                <label htmlFor="image" className="form-label">Image</label>
-                <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="form-file-input"
-                />
-                {formData.image && (
-                  <div className="image-preview">
-                    <img src={formData.image} alt="Preview" />
-                  </div>
-                )}
-                {!formData.image && (
+                <label htmlFor="image_upload" className="form-label">Blog Image</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   <input
-                    type="text"
-                    name="image"
-                    value={formData.image}
+                    type="file"
+                    id="image_upload"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, 'image')}
+                    disabled={uploading.image}
+                    style={{ marginBottom: '0.5rem' }}
+                  />
+                  {uploading.image && <small>Uploading...</small>}
+                  {(imagePreview.image || formData.image_url) && (
+                    <div style={{ marginTop: '0.5rem' }}>
+                      <img 
+                        src={imagePreview.image || getImageUrl(formData.image_url)} 
+                        alt="Preview" 
+                        style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px' }}
+                      />
+                    </div>
+                  )}
+                  <input
+                    type="url"
+                    id="image_url"
+                    name="image_url"
+                    value={formData.image_url}
                     onChange={handleInputChange}
                     className="form-input"
                     placeholder="Or enter image URL"
+                    style={{ marginTop: '0.5rem' }}
                   />
-                )}
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="featured_image_upload" className="form-label">Featured Image</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <input
+                    type="file"
+                    id="featured_image_upload"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, 'featured')}
+                    disabled={uploading.featured}
+                    style={{ marginBottom: '0.5rem' }}
+                  />
+                  {uploading.featured && <small>Uploading...</small>}
+                  {(imagePreview.featured || formData.featured_image) && (
+                    <div style={{ marginTop: '0.5rem' }}>
+                      <img 
+                        src={imagePreview.featured || getImageUrl(formData.featured_image)} 
+                        alt="Preview" 
+                        style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px' }}
+                      />
+                    </div>
+                  )}
+                  <input
+                    type="url"
+                    id="featured_image"
+                    name="featured_image"
+                    value={formData.featured_image}
+                    onChange={handleInputChange}
+                    className="form-input"
+                    placeholder="Or enter featured image URL"
+                    style={{ marginTop: '0.5rem' }}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="checkbox"
+                    name="is_featured"
+                    checked={formData.is_featured}
+                    onChange={handleInputChange}
+                  />
+                  Featured
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="checkbox"
+                    name="is_published"
+                    checked={formData.is_published}
+                    onChange={handleInputChange}
+                  />
+                  Published
+                </label>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="meta_title" className="form-label">SEO Title</label>
+                <input
+                  type="text"
+                  id="meta_title"
+                  name="meta_title"
+                  value={formData.meta_title}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="SEO meta title"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="meta_description" className="form-label">SEO Description</label>
+                <textarea
+                  id="meta_description"
+                  name="meta_description"
+                  value={formData.meta_description}
+                  onChange={handleInputChange}
+                  className="form-textarea"
+                  placeholder="SEO meta description"
+                  rows="2"
+                ></textarea>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="meta_keywords" className="form-label">SEO Keywords</label>
+                <input
+                  type="text"
+                  id="meta_keywords"
+                  name="meta_keywords"
+                  value={formData.meta_keywords}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="keyword1, keyword2, keyword3"
+                />
               </div>
 
               <div className="form-actions">
-                <button type="submit" className="btn btn-primary">
-                  {editingBlog ? 'Update Blog' : 'Create Blog'}
+                <button type="submit" className="btn btn-primary" disabled={submitting}>
+                  {submitting ? 'Saving...' : (editingBlog ? 'Update Blog' : 'Create Blog')}
                 </button>
                 {editingBlog && (
                   <button 
                     type="button" 
                     className="btn btn-secondary"
-                    onClick={handleCancel}
+                    onClick={resetForm}
+                    disabled={submitting}
                   >
                     Cancel
                   </button>
@@ -248,7 +503,11 @@ function Admin() {
             <h2 className="admin-list-title">All Blog Posts ({blogs.length})</h2>
           </div>
 
-          {blogs.length === 0 ? (
+          {loading ? (
+            <div className="empty-state">
+              <p>Loading blogs...</p>
+            </div>
+          ) : blogs.length === 0 ? (
             <div className="empty-state">
               <p>No blogs found. Create your first blog post!</p>
             </div>
@@ -257,15 +516,19 @@ function Admin() {
               {blogs.map(blog => (
                 <div key={blog.id} className="admin-blog-card">
                   <div className="admin-blog-image">
-                    <img src={blog.image || 'https://via.placeholder.com/300x200'} alt={blog.title} />
+                    <img src={blog.image_url || 'https://via.placeholder.com/300x200'} alt={blog.title} />
                   </div>
                   <div className="admin-blog-content">
                     <div className="admin-blog-header">
-                      <span className="admin-blog-category">{blog.category}</span>
-                      <span className="admin-blog-date">{blog.createdAt}</span>
+                      <span className="admin-blog-category">{blog.category_name || 'Uncategorized'}</span>
+                      <span className="admin-blog-date">
+                        {new Date(blog.created_at).toLocaleDateString()}
+                        {blog.is_published ? ' • Published' : ' • Draft'}
+                        {blog.is_featured && ' • Featured'}
+                      </span>
                     </div>
                     <h3 className="admin-blog-title">{blog.title}</h3>
-                    <p className="admin-blog-excerpt">{blog.content}</p>
+                    <p className="admin-blog-excerpt">{blog.excerpt || blog.content?.substring(0, 150)}...</p>
                     <div className="admin-blog-actions">
                       <button 
                         className="btn btn-edit"

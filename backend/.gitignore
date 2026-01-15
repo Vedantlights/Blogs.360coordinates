@@ -1,0 +1,14 @@
+# Environment files
+.env
+
+# Uploaded files (keep directory structure)
+uploads/images/*
+!uploads/images/.gitkeep
+!uploads/.gitkeep
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

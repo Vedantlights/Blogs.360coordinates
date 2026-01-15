@@ -1,0 +1,23 @@
+# Allow access to uploaded files
+Options -Indexes
+
+# Prevent execution of PHP files in uploads directory
+<FilesMatch "\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Allow only image files
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# Set cache headers for images
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+</IfModule>

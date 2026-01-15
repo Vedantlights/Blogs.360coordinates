@@ -1,47 +1,39 @@
+import { useState, useEffect } from 'react'
 import Hero from '../components/Hero'
 import Categories from '../components/Categories'
 import BlogCard from '../components/BlogCard'
+import { blogAPI } from '../services/api'
 import './Buy.css'
 
 function Buy() {
-  const blogPosts = [
-    {
-      image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6",
-      tag: "Buy",
-      title: "How to Buy Your First Home",
-      description: "Complete beginner guide for first-time buyers covering everything from budgeting to closing the deal.",
-    },
-    {
-      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9",
-      tag: "Buy",
-      title: "Home Loan Process Explained",
-      description: "Step-by-step guide to securing a home loan in India. Learn about eligibility, documents, and approval process.",
-    },
-    {
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
-      tag: "Buy",
-      title: "New Construction vs Resale Properties",
-      description: "Compare the pros and cons of buying new construction versus resale properties in India.",
-    },
-    {
-      image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
-      tag: "Buy",
-      title: "Essential Documents for Property Purchase",
-      description: "Complete checklist of all documents you need when buying property in India. Don't miss anything!",
-    },
-    {
-      image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3",
-      tag: "Buy",
-      title: "Property Inspection Checklist",
-      description: "What to check before buying a property. Structural integrity, amenities, and neighborhood assessment.",
-    },
-    {
-      image: "https://images.unsplash.com/photo-1600585154526-990dac4d8e3d",
-      tag: "Buy",
-      title: "Budget Planning for Home Purchase",
-      description: "How to calculate your budget including down payment, registration, stamp duty, and hidden costs.",
-    },
-  ]
+  const [blogPosts, setBlogPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    fetchBlogs()
+  }, [])
+
+  const fetchBlogs = async () => {
+    try {
+      setLoading(true)
+      const response = await blogAPI.getAll({ category: 'buy', per_page: 20 })
+      if (response.success) {
+        setBlogPosts(response.data.map(blog => ({
+          image: blog.image_url || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6",
+          tag: blog.category_name || "Buy",
+          title: blog.title,
+          description: blog.excerpt || '',
+          link: `/post/${blog.slug}`
+        })))
+      }
+    } catch (err) {
+      console.error('Error fetching blogs:', err)
+      setError(err.message || 'Failed to load blogs')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -50,17 +42,32 @@ function Buy() {
         subtitle="Complete guides and expert advice for property buyers"
       />
       <Categories />
-      <section className="blog-grid">
-        {blogPosts.map((post, index) => (
-          <BlogCard
-            key={index}
-            image={post.image}
-            tag={post.tag}
-            title={post.title}
-            description={post.description}
-          />
-        ))}
-      </section>
+      {loading ? (
+        <div style={{ padding: '2rem', textAlign: 'center' }}>
+          <p>Loading blogs...</p>
+        </div>
+      ) : error ? (
+        <div style={{ padding: '2rem', textAlign: 'center' }}>
+          <p>Error: {error}</p>
+        </div>
+      ) : (
+        <section className="blog-grid">
+          {blogPosts.length > 0 ? (
+            blogPosts.map((post, index) => (
+              <BlogCard
+                key={index}
+                image={post.image}
+                tag={post.tag}
+                title={post.title}
+                description={post.description}
+                link={post.link}
+              />
+            ))
+          ) : (
+            <p style={{ padding: '2rem', textAlign: 'center' }}>No blogs found in this category.</p>
+          )}
+        </section>
+      )}
     </>
   )
 }

@@ -41,6 +41,7 @@ function App() {
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/post/:slug" element={<Post />} />
               <Route path="/post" element={<Post />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />

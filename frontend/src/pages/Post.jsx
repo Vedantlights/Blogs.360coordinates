@@ -1,44 +1,98 @@
+import { useEffect, useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { blogAPI } from '../services/api'
 import './Post.css'
 
 function Post() {
+  const { slug } = useParams()
+  const navigate = useNavigate()
+  const [blog, setBlog] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (slug) {
+      fetchBlog(slug)
+    } else {
+      // If no slug, show default content or redirect
+      setLoading(false)
+    }
+  }, [slug])
+
+  const fetchBlog = async (blogSlug) => {
+    try {
+      setLoading(true)
+      setError(null)
+      const response = await blogAPI.getBySlug(blogSlug)
+      
+      if (response.success && response.data) {
+        setBlog(response.data)
+        
+        // Update page title and meta
+        document.title = `${response.data.title} | IndiaPropertys Blog`
+        const metaDescription = document.querySelector('meta[name="description"]')
+        if (metaDescription) {
+          metaDescription.setAttribute('content', response.data.meta_description || response.data.excerpt || '')
+        } else {
+          const meta = document.createElement('meta')
+          meta.name = 'description'
+          meta.content = response.data.meta_description || response.data.excerpt || ''
+          document.getElementsByTagName('head')[0].appendChild(meta)
+        }
+      } else {
+        setError('Blog not found')
+      }
+    } catch (err) {
+      console.error('Error fetching blog:', err)
+      setError(err.message || 'Failed to load blog')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Loading blog post...</p>
+      </div>
+    )
+  }
+
+  if (error || !blog) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>{error || 'Blog not found'}</p>
+        <button onClick={() => navigate('/blog')}>Back to Blog</button>
+      </div>
+    )
+  }
+
+  // Format date
+  const formatDate = (dateString) => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  }
+
   return (
     <article className="post">
-      <h1>How to Buy Your First Home in India</h1>
-      <p className="meta">Category: Buy • January 2026</p>
-
-      <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6" alt="Modern home for sale" />
-
-      <p>
-        Buying your first home is a major milestone and one of the most significant financial decisions you'll make. 
-        This comprehensive guide will help you navigate the entire process, from initial budgeting to closing the deal, 
-        ensuring you make informed decisions every step of the way.
+      <h1>{blog.title}</h1>
+      <p className="meta">
+        Category: {blog.category_name || 'General'} • {formatDate(blog.published_at)}
+        {blog.views_count > 0 && ` • ${blog.views_count} views`}
       </p>
 
-      <h2>1. Budget Planning</h2>
-      <p>
-        Before you start house hunting, it's crucial to have a clear understanding of your finances. Always plan your 
-        budget including not just the property price, but also registration fees, stamp duty, legal costs, and ongoing 
-        maintenance expenses. A general rule of thumb is that your home loan EMI should not exceed 40% of your monthly income.
-      </p>
+      {blog.image_url && (
+        <img src={blog.image_url} alt={blog.title} />
+      )}
 
-      <h2>2. Location Matters</h2>
-      <p>
-        Location is perhaps the most important factor in real estate. Choose areas with good infrastructure, connectivity, 
-        schools, hospitals, and future growth potential. Research upcoming infrastructure projects, metro lines, and commercial 
-        developments that could increase property value over time.
-      </p>
+      {blog.content && (
+        <div dangerouslySetInnerHTML={{ __html: blog.content.replace(/\n/g, '<br />') }} />
+      )}
 
-      <h2>3. Legal Verification</h2>
-      <p>
-        Never skip legal verification. Ensure the property has clear title deeds, approved building plans, and all necessary 
-        permissions from local authorities. Hire a reputable lawyer to verify all documents before making any payments.
-      </p>
-
-      <h2>4. Home Loan Pre-approval</h2>
-      <p>
-        Getting pre-approved for a home loan gives you a clear budget and makes you a more attractive buyer. Compare interest 
-        rates from different banks and choose the best option. Don't forget to factor in processing fees and other charges.
-      </p>
+      {!blog.content && blog.excerpt && (
+        <p>{blog.excerpt}</p>
+      )}
     </article>
   )
 }
