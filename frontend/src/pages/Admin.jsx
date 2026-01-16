@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
-import { adminAPI, categoryAPI } from '../services/api'
+import { useNavigate } from 'react-router-dom'
+import { adminAPI, categoryAPI, authAPI } from '../services/api'
 import { API_BASE_URL } from '../config/api'
 import './Admin.css'
 
 function Admin() {
+  const navigate = useNavigate()
   const [blogs, setBlogs] = useState([])
   const [categories, setCategories] = useState([])
   const [editingBlog, setEditingBlog] = useState(null)
@@ -12,6 +14,7 @@ function Admin() {
   const [uploading, setUploading] = useState({ image: false, featured: false })
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
+  const [username, setUsername] = useState('')
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -30,9 +33,28 @@ function Admin() {
 
   useEffect(() => {
     document.title = 'Admin Panel - Blog Management'
+    const storedUsername = localStorage.getItem('admin_username')
+    if (storedUsername) {
+      setUsername(storedUsername)
+    }
     fetchBlogs()
     fetchCategories()
   }, [])
+
+  const handleLogout = async () => {
+    if (window.confirm('Are you sure you want to logout?')) {
+      try {
+        await authAPI.logout()
+        navigate('/vedantlights/login')
+      } catch (err) {
+        // Even if logout fails, clear local storage and redirect
+        localStorage.removeItem('admin_authenticated')
+        localStorage.removeItem('admin_username')
+        navigate('/vedantlights/login')
+      }
+    }
+  }
+
 
   const fetchBlogs = async () => {
     try {
@@ -120,7 +142,7 @@ function Admin() {
       // Upload file
       const response = await adminAPI.upload.image(file)
       
-      if (response.success) {
+      if (response.success && response.data && response.data.url) {
         const fieldName = type === 'image' ? 'image_url' : 'featured_image'
         setFormData(prev => ({
           ...prev,
@@ -129,11 +151,15 @@ function Admin() {
         setSuccess(`${type === 'image' ? 'Image' : 'Featured image'} uploaded successfully!`)
         setTimeout(() => setSuccess(null), 3000)
       } else {
-        setError(response.message || 'Failed to upload image')
+        // Clear preview on failure
+        setImagePreview(prev => ({ ...prev, [type]: null }))
+        setError(response.message || 'Failed to upload image. Please try again or enter a URL manually.')
       }
     } catch (err) {
       console.error('Error uploading image:', err)
-      setError(err.message || 'Failed to upload image')
+      // Clear preview on error
+      setImagePreview(prev => ({ ...prev, [type]: null }))
+      setError(err.message || 'Failed to upload image. Please try again or enter a URL manually.')
     } finally {
       setUploading(prev => ({ ...prev, [type]: false }))
     }
@@ -145,9 +171,21 @@ function Admin() {
     if (url.startsWith('http://') || url.startsWith('https://')) {
       return url
     }
-    // If it's a relative path, prepend API base URL
+    // If it's a relative path starting with /backend, construct full URL
+    if (url.startsWith('/backend/')) {
+      // Extract base URL from API_BASE_URL (e.g., https://blogs.indiapropertys.com)
+      const baseUrl = API_BASE_URL.replace('/backend/api', '')
+      return baseUrl + url
+    }
+    // If it's a relative path starting with /, prepend base URL
     if (url.startsWith('/')) {
-      return API_BASE_URL.replace('/api', '') + url
+      const baseUrl = API_BASE_URL.replace('/api', '')
+      return baseUrl + url
+    }
+    // If it's a relative path without leading slash, add it
+    if (url.includes('uploads/')) {
+      const baseUrl = API_BASE_URL.replace('/api', '')
+      return baseUrl + '/' + url
     }
     return url
   }
@@ -200,10 +238,14 @@ function Admin() {
       meta_description: blog.meta_description || '',
       meta_keywords: blog.meta_keywords || ''
     })
-    // Set preview images
+    // Set preview images - ensure URLs are properly formatted
+    const imageUrl = blog.image_url ? getImageUrl(blog.image_url) : null
+    const featuredUrl = blog.featured_image ? getImageUrl(blog.featured_image) : null
+    
+    // Set preview immediately
     setImagePreview({
-      image: blog.image_url ? getImageUrl(blog.image_url) : null,
-      featured: blog.featured_image ? getImageUrl(blog.featured_image) : null
+      image: imageUrl,
+      featured: featuredUrl
     })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -253,8 +295,31 @@ function Admin() {
   return (
     <div className="admin-container">
       <div className="admin-header">
-        <h1 className="admin-title">Blog Management Panel</h1>
-        <p className="admin-subtitle">Create, edit, and manage your blog posts</p>
+        <div>
+          <h1 className="admin-title">Blog Management Panel</h1>
+          <p className="admin-subtitle">Create, edit, and manage your blog posts</p>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          {username && (
+            <span style={{ color: '#666', fontSize: '0.9rem' }}>
+              Welcome, <strong>{username}</strong>
+            </span>
+          )}
+          <button 
+            onClick={handleLogout}
+            style={{
+              padding: '0.5rem 1rem',
+              background: '#dc3545',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '0.9rem'
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </div>
 
       <div className="admin-content">
@@ -362,23 +427,30 @@ function Admin() {
                     style={{ marginBottom: '0.5rem' }}
                   />
                   {uploading.image && <small>Uploading...</small>}
-                  {(imagePreview.image || formData.image_url) && (
-                    <div style={{ marginTop: '0.5rem' }}>
-                      <img 
-                        src={imagePreview.image || getImageUrl(formData.image_url)} 
-                        alt="Preview" 
-                        style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px' }}
-                      />
-                    </div>
-                  )}
+                  {(() => {
+                    const previewUrl = imagePreview.image || (formData.image_url ? getImageUrl(formData.image_url) : null)
+                    return previewUrl && (
+                      <div style={{ marginTop: '0.5rem' }}>
+                        <img 
+                          src={previewUrl} 
+                          alt="Preview" 
+                          style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ddd' }}
+                          onError={(e) => {
+                            console.error('Image failed to load:', e.target.src)
+                            e.target.style.display = 'none'
+                          }}
+                        />
+                      </div>
+                    )
+                  })()}
                   <input
-                    type="url"
+                    type="text"
                     id="image_url"
                     name="image_url"
                     value={formData.image_url}
                     onChange={handleInputChange}
                     className="form-input"
-                    placeholder="Or enter image URL"
+                    placeholder="Or enter image URL (optional)"
                     style={{ marginTop: '0.5rem' }}
                   />
                 </div>
@@ -396,23 +468,30 @@ function Admin() {
                     style={{ marginBottom: '0.5rem' }}
                   />
                   {uploading.featured && <small>Uploading...</small>}
-                  {(imagePreview.featured || formData.featured_image) && (
-                    <div style={{ marginTop: '0.5rem' }}>
-                      <img 
-                        src={imagePreview.featured || getImageUrl(formData.featured_image)} 
-                        alt="Preview" 
-                        style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px' }}
-                      />
-                    </div>
-                  )}
+                  {(() => {
+                    const previewUrl = imagePreview.featured || (formData.featured_image ? getImageUrl(formData.featured_image) : null)
+                    return previewUrl && (
+                      <div style={{ marginTop: '0.5rem' }}>
+                        <img 
+                          src={previewUrl} 
+                          alt="Preview" 
+                          style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ddd' }}
+                          onError={(e) => {
+                            console.error('Featured image failed to load:', e.target.src)
+                            e.target.style.display = 'none'
+                          }}
+                        />
+                      </div>
+                    )
+                  })()}
                   <input
-                    type="url"
+                    type="text"
                     id="featured_image"
                     name="featured_image"
                     value={formData.featured_image}
                     onChange={handleInputChange}
                     className="form-input"
-                    placeholder="Or enter featured image URL"
+                    placeholder="Or enter featured image URL (optional)"
                     style={{ marginTop: '0.5rem' }}
                   />
                 </div>

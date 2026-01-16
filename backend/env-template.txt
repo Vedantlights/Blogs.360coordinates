@@ -1,0 +1,16 @@
+# Database Configuration Template
+# Copy this content to a file named .env in the backend directory
+# Update the values with your actual database credentials
+
+DB_HOST=localhost
+DB_NAME=u449667423_Blogs
+DB_USER=u449667423_sneha
+DB_PASS=Blogs@2026
+DB_CHARSET=utf8mb4
+
+# Instructions:
+# 1. Create a file named .env (not .env.txt) in the backend/ directory
+# 2. Copy the above content into the .env file
+# 3. Update the values if your credentials are different
+# 4. Make sure the file is not publicly accessible
+# 5. On Linux/Mac, set permissions: chmod 600 .env

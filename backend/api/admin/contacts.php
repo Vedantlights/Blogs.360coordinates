@@ -6,7 +6,11 @@
  */
 
 require_once __DIR__ . '/../../config/cors.php';
+require_once __DIR__ . '/../../helpers/Auth.php';
 require_once __DIR__ . '/../../controllers/ContactController.php';
+
+// Require authentication for all admin endpoints
+requireAdminAuth();
 
 $controller = new ContactController();
 $method = $_SERVER['REQUEST_METHOD'];

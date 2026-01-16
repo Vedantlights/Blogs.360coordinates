@@ -9,7 +9,11 @@
  */
 
 require_once __DIR__ . '/../../config/cors.php';
+require_once __DIR__ . '/../../helpers/Auth.php';
 require_once __DIR__ . '/../../controllers/CategoryController.php';
+
+// Require authentication for all admin endpoints
+requireAdminAuth();
 
 $controller = new CategoryController();
 $method = $_SERVER['REQUEST_METHOD'];

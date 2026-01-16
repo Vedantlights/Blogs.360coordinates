@@ -20,7 +20,22 @@ The `backend/config/database.php` file automatically loads these credentials fro
 
 To test if the database connection works, you can:
 
-1. **Via PHP:**
+1. **Via Test Script (Recommended):**
+   - Visit: `https://blogs.indiapropertys.com/backend/test-connection.php`
+   - This script will check:
+     - `.env` file exists and is readable
+     - Database configuration is loaded
+     - Database connection works
+     - Database queries execute successfully
+     - PHP extensions are installed
+     - File permissions are correct
+   - **⚠️ SECURITY:** Delete this file after testing in production!
+
+2. **Via Health Check API:**
+   - Visit: `https://blogs.indiapropertys.com/backend/api/health`
+   - Returns JSON with database connection status
+
+3. **Via PHP Code:**
    ```php
    require_once 'config/database.php';
    try {
@@ -31,8 +46,8 @@ To test if the database connection works, you can:
    }
    ```
 
-2. **Via API:**
-   - Try accessing any API endpoint
+4. **Via API Endpoints:**
+   - Try accessing any API endpoint (e.g., `/api/blogs`)
    - Check server error logs if connection fails
 
 ## Important Notes

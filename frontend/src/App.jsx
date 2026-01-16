@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import ProtectedRoute from './components/ProtectedRoute'
 import './App.css'
 
 // Lazy load page components for code splitting
@@ -17,6 +18,7 @@ const Tips = lazy(() => import('./pages/Tips'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const Blog = lazy(() => import('./pages/Blog'))
 const Admin = lazy(() => import('./pages/Admin'))
+const Login = lazy(() => import('./pages/Login'))
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -52,7 +54,15 @@ function App() {
               <Route path="/tips" element={<Tips />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/blog" element={<Blog />} />
-              <Route path="/admin" element={<Admin />} />
+              <Route path="/vedantlights/login" element={<Login />} />
+              <Route 
+                path="/vedantlights" 
+                element={
+                  <ProtectedRoute>
+                    <Admin />
+                  </ProtectedRoute>
+                } 
+              />
             </Routes>
           </Suspense>
         </main>

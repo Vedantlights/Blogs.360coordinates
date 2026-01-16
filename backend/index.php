@@ -5,6 +5,9 @@
  * Routes API requests to appropriate endpoints
  */
 
+// Enable CORS for all requests
+require_once __DIR__ . '/config/cors.php';
+
 // Enable error reporting (disable in production)
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
@@ -51,6 +54,18 @@ if (count($segments) >= 2 && $segments[0] === 'api') {
     if ($endpoint === 'contact') {
         $_SERVER['PATH_INFO'] = '';
         require_once __DIR__ . '/api/contact.php';
+        exit();
+    }
+    
+    if ($endpoint === 'health') {
+        require_once __DIR__ . '/api/health.php';
+        exit();
+    }
+    
+    if ($endpoint === 'auth') {
+        $authPath = isset($segments[2]) ? $segments[2] : '';
+        $_SERVER['PATH_INFO'] = $authPath ? '/' . $authPath : '';
+        require_once __DIR__ . '/api/auth.php';
         exit();
     }
     

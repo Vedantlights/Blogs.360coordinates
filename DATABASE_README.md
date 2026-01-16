@@ -142,7 +142,6 @@ mysql -u your_username -p your_database_name < database_schema.sql
 
 The schema includes:
 - **6 default categories**: Buy, Rent, Investment, Legal, Tips, News
-- **3 sample blog posts**: For testing
 
 ---
 

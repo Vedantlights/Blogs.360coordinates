@@ -35,6 +35,16 @@ api.interceptors.response.use(
     if (error.response) {
       // Server responded with error status
       const { data, status } = error.response;
+      
+      // Handle 401 Unauthorized - redirect to login
+      if (status === 401 && !window.location.pathname.includes('/vedantlights/login')) {
+        localStorage.removeItem('admin_authenticated');
+        localStorage.removeItem('admin_username');
+        if (window.location.pathname.startsWith('/vedantlights')) {
+          window.location.href = '/vedantlights/login';
+        }
+      }
+      
       return Promise.reject({
         message: data?.message || 'An error occurred',
         status,
@@ -237,6 +247,41 @@ export const adminAPI = {
     delete: (filename) => {
       return api.delete(`/admin/upload/${filename}`);
     },
+  },
+};
+
+// Authentication API
+export const authAPI = {
+  /**
+   * Login
+   * @param {string} username - Username
+   * @param {string} password - Password
+   * @returns {Promise}
+   */
+  login: (username, password) => {
+    return api.post('/auth/login', {
+      username,
+      password,
+    });
+  },
+
+  /**
+   * Logout
+   * @returns {Promise}
+   */
+  logout: () => {
+    return api.post('/auth/logout').then(() => {
+      localStorage.removeItem('admin_authenticated');
+      localStorage.removeItem('admin_username');
+    });
+  },
+
+  /**
+   * Check authentication status
+   * @returns {Promise}
+   */
+  check: () => {
+    return api.get('/auth/check');
   },
 };
 
