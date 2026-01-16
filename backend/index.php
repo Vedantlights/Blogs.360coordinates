@@ -63,6 +63,9 @@ if (count($segments) >= 2 && $segments[0] === 'api') {
     }
     
     if ($endpoint === 'auth') {
+        // For /api/auth/login, segments[2] would be 'login'
+        // For /api/auth/logout, segments[2] would be 'logout'
+        // For /api/auth/check, segments[2] would be 'check'
         $authPath = isset($segments[2]) ? $segments[2] : '';
         $_SERVER['PATH_INFO'] = $authPath ? '/' . $authPath : '';
         require_once __DIR__ . '/api/auth.php';
