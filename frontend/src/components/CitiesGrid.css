@@ -36,8 +36,11 @@
 }
 
 .city-card {
+  display: block;
   text-align: center;
   transition: transform 0.3s ease;
+  text-decoration: none;
+  color: inherit;
 }
 
 .city-card:hover {

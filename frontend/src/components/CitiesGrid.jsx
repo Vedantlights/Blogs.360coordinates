@@ -1,6 +1,8 @@
 import './CitiesGrid.css'
 
 function CitiesGrid() {
+  const mainSiteUrl = 'https://www.indiapropertys.com/'
+
   const cities = [
     { name: 'MUMBAI', image: 'Mumbai.png' },
     { name: 'BENGALORE', image: 'Bangalore.png' },
@@ -21,7 +23,12 @@ function CitiesGrid() {
         <h2 className="cities-title">SHAPING SKYLINES ACROSS INDIA</h2>
         <div className="cities-grid">
           {cities.map((city, index) => (
-            <div key={index} className="city-card">
+            <a
+              key={index}
+              className="city-card"
+              href={mainSiteUrl}
+              aria-label={`Visit IndiaPropertys for ${city.name}`}
+            >
               <div className="city-image-wrapper">
                 <img 
                   src={`${process.env.PUBLIC_URL}/images/cities/${city.image}`} 
@@ -31,7 +38,7 @@ function CitiesGrid() {
                 />
               </div>
               <h3 className="city-name">{city.name}</h3>
-            </div>
+            </a>
           ))}
         </div>
       </div>
