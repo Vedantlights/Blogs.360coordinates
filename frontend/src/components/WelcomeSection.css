@@ -34,6 +34,22 @@
   font-weight: 600;
 }
 
+.welcome-link {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s ease;
+}
+
+.welcome-link:hover {
+  opacity: 0.8;
+}
+
+.welcome-link strong {
+  color: var(--accent-color);
+  font-weight: 600;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .welcome-section {
     padding: 60px 20px;

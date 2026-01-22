@@ -12,7 +12,12 @@ function OurStory() {
           <div className="our-story-text">
             <p>
               <strong>
-                <span style={{color:'#764be2'}}>IndiaPropertys</span>
+                <a 
+                  href="https://www.indiapropertys.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{color:'#764be2', textDecoration: 'none', cursor: 'pointer'}}
+                >www.indiapropertys.com</a>
               </strong> was founded with a vision to revolutionize the real estate industry 
               by simplifying property transactions and making them accessible to everyone. We recognized 
               the challenges faced by buyers, sellers, and renters in navigating the complex real 
@@ -26,7 +31,12 @@ function OurStory() {
             </p>
             <p>
               Today, <strong>
-                <span style={{color:'#764be2'}}>IndiaPropertys</span>
+                <a 
+                  href="https://www.indiapropertys.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{color:'#764be2', textDecoration: 'none', cursor: 'pointer'}}
+                >www.indiapropertys.com</a>
               </strong> stands as a leading real estate platform, helping thousands of 
               people find their perfect property match. Our commitment to innovation and excellence 
               drives us to continuously expand our services and reach, meeting the evolving needs of 
