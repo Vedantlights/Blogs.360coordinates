@@ -9,12 +9,22 @@ function Admin() {
   const [blogs, setBlogs] = useState([])
   const [categories, setCategories] = useState([])
   const [editingBlog, setEditingBlog] = useState(null)
+  const [editingCategory, setEditingCategory] = useState(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [submittingCategory, setSubmittingCategory] = useState(false)
   const [uploading, setUploading] = useState({ image: false, featured: false })
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
   const [username, setUsername] = useState('')
+  const [categoryFormData, setCategoryFormData] = useState({
+    name: '',
+    slug: '',
+    icon: '',
+    description: '',
+    display_order: 0,
+    is_active: true
+  })
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -73,7 +83,7 @@ function Admin() {
 
   const fetchCategories = async () => {
     try {
-      const response = await categoryAPI.getAll()
+      const response = await adminAPI.categories.getAll()
       if (response.success) {
         setCategories(response.data || [])
       }
@@ -290,6 +300,104 @@ function Admin() {
       meta_keywords: ''
     })
     setImagePreview({ image: null, featured: null })
+  }
+
+  const handleCategoryInputChange = (e) => {
+    const { name, value, type, checked } = e.target
+    setCategoryFormData({
+      ...categoryFormData,
+      [name]: type === 'checkbox' ? checked : value
+    })
+    
+    // Auto-generate slug from name
+    if (name === 'name' && !editingCategory) {
+      setCategoryFormData(prev => ({
+        ...prev,
+        slug: generateSlug(value)
+      }))
+    }
+    
+    // Clear messages
+    if (error) setError(null)
+    if (success) setSuccess(null)
+  }
+
+  const handleCategorySubmit = async (e) => {
+    e.preventDefault()
+    setSubmittingCategory(true)
+    setError(null)
+    setSuccess(null)
+
+    try {
+      let response
+      if (editingCategory) {
+        response = await adminAPI.categories.update(editingCategory.id, categoryFormData)
+      } else {
+        response = await adminAPI.categories.create(categoryFormData)
+      }
+
+      if (response.success) {
+        setSuccess(editingCategory ? 'Category updated successfully!' : 'Category created successfully!')
+        resetCategoryForm()
+        fetchCategories() // Refresh list
+        setTimeout(() => setSuccess(null), 3000)
+      } else {
+        setError(response.message || 'Operation failed')
+      }
+    } catch (err) {
+      console.error('Error saving category:', err)
+      setError(err.message || 'Failed to save category')
+    } finally {
+      setSubmittingCategory(false)
+    }
+  }
+
+  const handleCategoryEdit = (category) => {
+    setEditingCategory(category)
+    setCategoryFormData({
+      name: category.name || '',
+      slug: category.slug || '',
+      icon: category.icon || '',
+      description: category.description || '',
+      display_order: category.display_order || 0,
+      is_active: category.is_active !== undefined ? category.is_active : true
+    })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleCategoryDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this category?')) {
+      return
+    }
+
+    try {
+      const response = await adminAPI.categories.delete(id)
+      if (response.success) {
+        setSuccess('Category deleted successfully!')
+        if (editingCategory && editingCategory.id === id) {
+          resetCategoryForm()
+        }
+        fetchCategories() // Refresh list
+        setTimeout(() => setSuccess(null), 3000)
+      } else {
+        setError(response.message || 'Failed to delete category')
+      }
+    } catch (err) {
+      console.error('Error deleting category:', err)
+      setError(err.message || 'Failed to delete category')
+    }
+  }
+
+  const resetCategoryForm = () => {
+    setEditingCategory(null)
+    setCategoryFormData({
+      name: '',
+      slug: '',
+      icon: '',
+      description: '',
+      display_order: 0,
+      is_active: true
+    })
   }
 
   return (
@@ -574,6 +682,164 @@ function Admin() {
               </div>
             </form>
           </div>
+        </section>
+
+        {/* Category Management Section */}
+        <section className="admin-form-section">
+          <div className="admin-form-panel">
+            <h2 className="admin-form-title">
+              {editingCategory ? 'Edit Category' : 'Create New Category'}
+            </h2>
+            
+            <form className="admin-form" onSubmit={handleCategorySubmit}>
+              <div className="form-group">
+                <label htmlFor="category_name" className="form-label">Category Name *</label>
+                <input
+                  type="text"
+                  id="category_name"
+                  name="name"
+                  value={categoryFormData.name}
+                  onChange={handleCategoryInputChange}
+                  className="form-input"
+                  placeholder="e.g., Sell"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="category_slug" className="form-label">Slug *</label>
+                <input
+                  type="text"
+                  id="category_slug"
+                  name="slug"
+                  value={categoryFormData.slug}
+                  onChange={handleCategoryInputChange}
+                  className="form-input"
+                  placeholder="sell"
+                  required
+                />
+                <small style={{ color: '#666', fontSize: '0.875rem' }}>URL-friendly version</small>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="category_icon" className="form-label">Icon (Emoji)</label>
+                <input
+                  type="text"
+                  id="category_icon"
+                  name="icon"
+                  value={categoryFormData.icon}
+                  onChange={handleCategoryInputChange}
+                  className="form-input"
+                  placeholder="💰"
+                  maxLength="10"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="category_description" className="form-label">Description</label>
+                <textarea
+                  id="category_description"
+                  name="description"
+                  value={categoryFormData.description}
+                  onChange={handleCategoryInputChange}
+                  className="form-textarea"
+                  placeholder="Complete guides for property sellers"
+                  rows="2"
+                ></textarea>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="category_display_order" className="form-label">Display Order</label>
+                <input
+                  type="number"
+                  id="category_display_order"
+                  name="display_order"
+                  value={categoryFormData.display_order}
+                  onChange={handleCategoryInputChange}
+                  className="form-input"
+                  placeholder="3"
+                  min="0"
+                />
+              </div>
+
+              <div className="form-group">
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="checkbox"
+                    name="is_active"
+                    checked={categoryFormData.is_active}
+                    onChange={handleCategoryInputChange}
+                  />
+                  Active
+                </label>
+              </div>
+
+              <div className="form-actions">
+                <button type="submit" className="btn btn-primary" disabled={submittingCategory}>
+                  {submittingCategory ? 'Saving...' : (editingCategory ? 'Update Category' : 'Create Category')}
+                </button>
+                {editingCategory && (
+                  <button 
+                    type="button" 
+                    className="btn btn-secondary"
+                    onClick={resetCategoryForm}
+                    disabled={submittingCategory}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        </section>
+
+        {/* Category List Section */}
+        <section className="admin-list-section">
+          <div className="admin-list-header">
+            <h2 className="admin-list-title">All Categories ({categories.length})</h2>
+          </div>
+
+          {categories.length === 0 ? (
+            <div className="empty-state">
+              <p>No categories found. Create your first category!</p>
+            </div>
+          ) : (
+            <div className="admin-blog-list">
+              {categories.map(category => (
+                <div key={category.id} className="admin-blog-card">
+                  <div className="admin-blog-content">
+                    <div className="admin-blog-header">
+                      <span className="admin-blog-category">
+                        {category.icon && <span style={{ marginRight: '0.5rem' }}>{category.icon}</span>}
+                        {category.name}
+                      </span>
+                      <span className="admin-blog-date">
+                        Order: {category.display_order} • {category.is_active ? 'Active' : 'Inactive'}
+                      </span>
+                    </div>
+                    <h3 className="admin-blog-title">Slug: {category.slug}</h3>
+                    {category.description && (
+                      <p className="admin-blog-excerpt">{category.description}</p>
+                    )}
+                    <div className="admin-blog-actions">
+                      <button 
+                        className="btn btn-edit"
+                        onClick={() => handleCategoryEdit(category)}
+                      >
+                        Edit
+                      </button>
+                      <button 
+                        className="btn btn-delete"
+                        onClick={() => handleCategoryDelete(category.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* Blog List Section */}

@@ -78,10 +78,11 @@ CREATE TABLE IF NOT EXISTS contact_messages (
 INSERT INTO categories (name, slug, icon, description, display_order) VALUES
 ('Buy', 'buy', '🏠', 'Complete guides for property buyers', 1),
 ('Rent', 'rent', '🔑', 'Rental guides and lease tips', 2),
-('Investment', 'investment', '📈', 'Smart property investment strategies', 3),
-('Legal', 'legal', '📋', 'Legal guides and document checklists', 4),
-('Tips', 'tips', '💡', 'Property tips and advice', 5),
-('News', 'news', '📰', 'Latest real estate news and updates', 6)
+('Sell', 'sell', '💰', 'Complete guides for property sellers', 3),
+('Investment', 'investment', '📈', 'Smart property investment strategies', 4),
+('Legal', 'legal', '📋', 'Legal guides and document checklists', 5),
+('Tips', 'tips', '💡', 'Property tips and advice', 6),
+('News', 'news', '📰', 'Latest real estate news and updates', 7)
 ON DUPLICATE KEY UPDATE name=name;
 
 -- =====================================================
