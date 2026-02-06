@@ -16,12 +16,14 @@ $results = [
     'checks' => []
 ];
 
-// Check 1: .env file exists
+// Check 1: Config files exist
 $envFile = __DIR__ . '/.env';
-$results['checks']['env_file'] = [
-    'exists' => file_exists($envFile),
-    'path' => $envFile,
-    'readable' => file_exists($envFile) ? is_readable($envFile) : false
+$dbConfigFile = __DIR__ . '/db_config.php';
+$results['checks']['config_files'] = [
+    'env_exists' => file_exists($envFile),
+    'env_readable' => file_exists($envFile) ? is_readable($envFile) : false,
+    'db_config_exists' => file_exists($dbConfigFile),
+    'db_config_readable' => file_exists($dbConfigFile) ? is_readable($dbConfigFile) : false,
 ];
 
 // Check 2: Load database config

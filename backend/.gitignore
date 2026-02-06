@@ -1,5 +1,6 @@
-# Environment files
+# Environment files & config (contains credentials)
 .env
+db_config.php
 
 # Uploaded files (keep directory structure)
 uploads/images/*

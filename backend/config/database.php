@@ -18,14 +18,31 @@ if (file_exists($envFile)) {
     foreach ($lines as $line) {
         $line = trim($line);
         if (empty($line) || strpos($line, '#') === 0) {
-            continue; // Skip comments and empty lines
+            continue;
         }
         if (strpos($line, '=') === false) {
-            continue; // Skip invalid lines
+            continue;
         }
         list($name, $value) = explode('=', $line, 2);
-        $_ENV[trim($name)] = trim($value);
+        $value = trim($value);
+        // Strip surrounding quotes if present
+        if ((str_starts_with($value, '"') && str_ends_with($value, '"')) ||
+            (str_starts_with($value, "'") && str_ends_with($value, "'"))) {
+            $value = substr($value, 1, -1);
+        }
+        $_ENV[trim($name)] = $value;
     }
+}
+
+// Fallback: db_config.php (for hosts that block .env)
+$dbConfigFile = __DIR__ . '/../db_config.php';
+if (empty($_ENV['DB_PASS']) && file_exists($dbConfigFile)) {
+    $dbConfig = require $dbConfigFile;
+    $_ENV['DB_HOST'] = $_ENV['DB_HOST'] ?? $dbConfig['DB_HOST'] ?? 'localhost';
+    $_ENV['DB_NAME'] = $_ENV['DB_NAME'] ?? $dbConfig['DB_NAME'] ?? 'u449667423_Blogsdata';
+    $_ENV['DB_USER'] = $_ENV['DB_USER'] ?? $dbConfig['DB_USER'] ?? 'u449667423_blogsdata';
+    $_ENV['DB_PASS'] = $dbConfig['DB_PASS'] ?? '';
+    $_ENV['DB_CHARSET'] = $_ENV['DB_CHARSET'] ?? $dbConfig['DB_CHARSET'] ?? 'utf8mb4';
 }
 
 // Database configuration
