@@ -67,7 +67,6 @@ function Navbar() {
         <Link to="/blog" className={isActive('/blog') ? 'active' : ''}>
           Blogs
         </Link>
-        <a href="#podcast">Podcast</a>
         <Link to="/about" className={isActive('/about') ? 'active' : ''}>
           About
         </Link>

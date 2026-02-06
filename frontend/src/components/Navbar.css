@@ -44,10 +44,6 @@
   transition: transform 0.3s ease;
 }
 
-.logo a {
-  display: inline-block;
-  text-decoration: none;
-}
 
 .logo img {
   height: 130px;
@@ -146,3 +142,6 @@
   }
 }
 
+.navbar .logo a:after {
+  display: none !important;
+}

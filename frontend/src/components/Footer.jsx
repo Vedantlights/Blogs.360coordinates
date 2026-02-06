@@ -13,7 +13,6 @@ function Footer() {
           <Link to="/about">About</Link>
           <Link to="/">Blogs</Link>
           <Link to="/">Home</Link>
-          <a href="#podcast">Podcast</a>
           <Link to="/privacy">Privacy Policy</Link>
           <Link to="/contact">Support</Link>
         </div>
