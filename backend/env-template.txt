@@ -3,9 +3,9 @@
 # Update the values with your actual database credentials
 
 DB_HOST=localhost
-DB_NAME=u449667423_Blogs
-DB_USER=u449667423_sneha
-DB_PASS=Blogs@2026
+DB_NAME=u449667423_Blogsdata
+DB_USER=u449667423_blogsdata
+DB_PASS=Shital@765
 DB_CHARSET=utf8mb4
 
 # Instructions:

@@ -30,10 +30,10 @@ if (file_exists($envFile)) {
 
 // Database configuration
 define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
-define('DB_NAME', $_ENV['DB_NAME'] ?? 'Blogsdata');
-define('DB_USER', $_ENV['DB_USER'] ?? 'blogsdata');
+define('DB_NAME', $_ENV['DB_NAME'] ?? 'u449667423_Blogsdata');
+define('DB_USER', $_ENV['DB_USER'] ?? 'u449667423_blogsdata');
 define('DB_PASS', $_ENV['DB_PASS'] ?? '');
-define('DB_CHARSET', $_ENV['DB_CHARSET'] ?? 'u449667423');
+define('DB_CHARSET', $_ENV['DB_CHARSET'] ?? 'utf8mb4');
 
 /**
  * Get PDO Database Connection
