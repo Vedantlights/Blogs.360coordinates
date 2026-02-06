@@ -9,8 +9,7 @@
 }
 
 .contact-form-panel::before {
-  animation: buyer-gradientShift 5s ease infinite;
-  background: linear-gradient(90deg, #0077C0, #C7EEFF 50%, #0077C0);
+  background: #005a94;
   background-size: 200% 100%;
   content: "";
   height: 5px;
