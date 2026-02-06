@@ -47,7 +47,7 @@
 
 .admin-form-panel::before {
   animation: admin-gradientShift 5s ease infinite;
-  background: linear-gradient(90deg, #1e3a8a, #8b5cf6 50%, #1e3a8a);
+  background: linear-gradient(90deg, #0077C0, #C7EEFF 50%, #0077C0);
   background-size: 200% 100%;
   content: "";
   height: 5px;
@@ -104,7 +104,7 @@
 .form-select {
   width: 100%;
   padding: 15px 20px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #E5E7EB;
   border-radius: 12px;
   font-family: 'Inter', sans-serif;
   font-size: 16px;
@@ -117,7 +117,7 @@
 .form-input:focus,
 .form-textarea:focus,
 .form-select:focus {
-  border-color: var(--accent-color);
+  border-color: var(--primary-color);
 }
 
 .form-input::placeholder,
@@ -208,7 +208,7 @@
 .btn-secondary {
   background: var(--bg-light);
   color: var(--text-dark);
-  border: 2px solid #e2e8f0;
+  border: 2px solid #E5E7EB;
 }
 
 .btn-secondary:hover {
@@ -217,7 +217,7 @@
 }
 
 .btn-edit {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  background: var(--gradient-accent);
   color: var(--white);
   padding: 10px 20px;
   font-size: 14px;
@@ -319,7 +319,7 @@
 
 .admin-blog-category {
   display: inline-block;
-  background: #333333;
+  background: var(--primary-color);
   color: var(--white);
   padding: 6px 14px;
   border-radius: 20px;

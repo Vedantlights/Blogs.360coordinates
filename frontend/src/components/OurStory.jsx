@@ -16,7 +16,7 @@ function OurStory() {
                   href="https://www.360coordinates.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  style={{color:'#764be2', textDecoration: 'none', cursor: 'pointer'}}
+                  style={{color:'#0077C0', textDecoration: 'none', cursor: 'pointer'}}
                 >www.360coordinates.com</a>
               </strong> was founded with a vision to revolutionize the real estate industry 
               by simplifying property transactions and making them accessible to everyone. We recognized 
@@ -35,7 +35,7 @@ function OurStory() {
                   href="https://www.360coordinates.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  style={{color:'#764be2', textDecoration: 'none', cursor: 'pointer'}}
+                  style={{color:'#0077C0', textDecoration: 'none', cursor: 'pointer'}}
                 >www.360coordinates.com</a>
               </strong> stands as a leading real estate platform, helping thousands of 
               people find their perfect property match. Our commitment to innovation and excellence 

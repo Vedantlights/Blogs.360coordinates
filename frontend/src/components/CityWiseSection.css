@@ -53,7 +53,7 @@
 .city-wise-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
-  border-color: #333333;
+  border-color: var(--primary-color);
 }
 
 .city-wise-image-wrapper {
@@ -88,7 +88,7 @@
 }
 
 .city-wise-card:hover .city-wise-card-title {
-  color: #333333;
+  color: var(--primary-color);
 }
 
 @media (max-width: 768px) {

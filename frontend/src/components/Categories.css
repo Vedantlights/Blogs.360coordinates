@@ -23,9 +23,9 @@
 }
 
 .categories .category-link.active {
-  background: #333333;
+  background: var(--primary-color);
   color: var(--white);
-  border-color: #000000;
+  border-color: var(--primary-color);
 }
 
 .categories .category-link::before {
@@ -36,7 +36,7 @@
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: #333333;
+  background: var(--primary-color);
   transform: translate(-50%, -50%);
   transition: width 0.6s, height 0.6s;
   z-index: 0;
@@ -49,7 +49,7 @@
 
 .categories .category-link:hover {
   color: var(--white);
-  border-color: #333333;
+  border-color: var(--primary-color);
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }

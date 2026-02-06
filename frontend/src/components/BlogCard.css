@@ -38,7 +38,7 @@
 
 .tag {
   display: inline-block;
-  background: #333333;
+  background: var(--primary-color);
   color: var(--white);
   padding: 6px 14px;
   border-radius: 20px;
@@ -67,7 +67,7 @@
 }
 
 .blog-card a {
-  color: #333333;
+  color: var(--primary-color);
   text-decoration: none;
   font-weight: 600;
   font-size: 15px;
@@ -78,7 +78,7 @@
 }
 
 .blog-card a:hover {
-  color: #000000;
+  color: #005A94;
 }
 
 @media (max-width: 768px) {

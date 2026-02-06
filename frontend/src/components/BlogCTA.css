@@ -52,7 +52,7 @@
 
 .blog-cta-primary {
   background: var(--white);
-  color: #000000;
+  color: var(--text-dark);
 }
 
 .blog-cta-primary:hover {
@@ -61,7 +61,7 @@
 }
 
 .blog-cta-secondary {
-  background: #333333;
+  background: var(--primary-color);
   color: var(--white);
   border: 2px solid transparent;
 }

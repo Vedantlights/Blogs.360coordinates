@@ -62,7 +62,7 @@
 }
 
 .blog-search-button {
-  background: #333333;
+  background: var(--primary-color);
   border: none;
   border-radius: 50%;
   width: 48px;

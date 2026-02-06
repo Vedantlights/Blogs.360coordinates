@@ -106,13 +106,13 @@ function ContactForm() {
         </button>
         
         {success && (
-          <div className="form-message success" style={{ marginTop: '1rem', padding: '0.75rem', backgroundColor: '#d4edda', color: '#155724', borderRadius: '4px' }}>
+          <div className="form-message success" style={{ marginTop: '1rem', padding: '0.75rem', backgroundColor: '#C7EEFF', color: '#0077C0', borderRadius: '4px' }}>
             Thank you for your message! We will get back to you soon.
           </div>
         )}
         
         {error && (
-          <div className="form-message error" style={{ marginTop: '1rem', padding: '0.75rem', backgroundColor: '#f8d7da', color: '#721c24', borderRadius: '4px' }}>
+          <div className="form-message error" style={{ marginTop: '1rem', padding: '0.75rem', backgroundColor: '#FFE5E5', color: '#CC0000', borderRadius: '4px' }}>
             {error}
           </div>
         )}

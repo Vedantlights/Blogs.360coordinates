@@ -1,6 +1,6 @@
 .privacy-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  background: var(--bg-light);
   padding: 120px 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -16,7 +16,7 @@
 
 /* Header */
 .privacy-header {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: var(--gradient-accent);
   color: #ffffff;
   padding: 50px 40px;
   text-align: center;
@@ -38,26 +38,26 @@
 /* Body */
 .privacy-body {
   padding: 50px 40px;
-  color: #333333;
+  color: var(--text-dark);
   line-height: 1.8;
 }
 
 .intro-text {
   font-size: 1.05rem;
   margin-bottom: 40px;
-  color: #555555;
+  color: var(--text-light);
   padding: 20px;
   background: #f8fafc;
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid var(--primary-color);
   border-radius: 4px;
 }
 
 .intro-text strong {
-  color: #1e3a8a;
+  color: var(--primary-color);
 }
 
 .intro-text a {
-  color: #3b82f6;
+  color: var(--primary-color);
   text-decoration: none;
   font-weight: 500;
 }
@@ -73,7 +73,7 @@
 
 .privacy-section h2 {
   font-size: 1.6rem;
-  color: #1e3a8a;
+  color: var(--primary-color);
   margin-bottom: 16px;
   padding-bottom: 10px;
   border-bottom: 2px solid #e5e7eb;
@@ -100,11 +100,11 @@
 }
 
 .privacy-section ul li::marker {
-  color: #3b82f6;
+  color: var(--primary-color);
 }
 
 .privacy-section ul li strong {
-  color: #1e3a8a;
+  color: var(--primary-color);
   font-weight: 600;
 }
 
@@ -121,7 +121,7 @@
   padding: 20px;
   background: #ffffff;
   border-radius: 6px;
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid var(--primary-color);
 }
 
 .contact-details p {
@@ -130,12 +130,12 @@
 }
 
 .contact-details strong {
-  color: #1e3a8a;
+  color: var(--primary-color);
   font-size: 1.1rem;
 }
 
 .contact-details a {
-  color: #3b82f6;
+  color: var(--primary-color);
   text-decoration: none;
   font-weight: 500;
 }
@@ -376,12 +376,12 @@ html {
 
 /* Selection Color */
 ::selection {
-  background: #3b82f6;
+  background: var(--primary-color);
   color: #ffffff;
 }
 
 ::-moz-selection {
-  background: #3b82f6;
+  background: var(--primary-color);
   color: #ffffff;
 }
 

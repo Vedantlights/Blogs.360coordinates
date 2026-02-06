@@ -22,13 +22,13 @@
 }
 
 .login-header h1 {
-  color: #1a1a2e;
+  color: var(--text-dark);
   font-size: 2rem;
   margin-bottom: 0.5rem;
 }
 
 .login-header p {
-  color: #666;
+  color: var(--text-light);
   font-size: 0.9rem;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .form-group label {
-  color: #1a1a2e;
+  color: var(--text-dark);
   font-weight: 500;
   font-size: 0.9rem;
 }
@@ -70,7 +70,7 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--primary-color);
 }
 
 .form-group input:disabled {
@@ -79,7 +79,7 @@
 }
 
 .login-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-accent);
   color: white;
   border: none;
   padding: 0.875rem;
@@ -93,7 +93,7 @@
 
 .login-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 5px 15px rgba(0, 119, 192, 0.4);
 }
 
 .login-button:disabled {

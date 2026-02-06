@@ -7,18 +7,18 @@
 }
 
 :root {
-  --primary-color: #1e3a8a;
-  --accent-color: #8b5cf6;
-  --secondary-color: #ff6b6b;
-  --text-dark: #1a1a2e;
-  --text-light: #6c757d;
-  --bg-light: #f8f9fa;
+  --primary-color: #0077C0;
+  --accent-color: #C7EEFF;
+  --secondary-color: #0077C0;
+  --text-dark: #1D242B;
+  --text-light: #6B7280;
+  --bg-light: #FAFAFA;
   --white: #ffffff;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
-  --gradient-primary: linear-gradient(90deg, #1e3a8a, #8b5cf6 50%, #1e3a8a);
-  --gradient-accent: linear-gradient(90deg, #1e3a8a, #8b5cf6 50%, #1e3a8a);
+  --shadow-sm: 0 2px 8px rgba(0, 119, 192, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 119, 192, 0.12);
+  --shadow-lg: 0 8px 32px rgba(0, 119, 192, 0.16);
+  --gradient-primary: linear-gradient(90deg, #0077C0, #C7EEFF 50%, #0077C0);
+  --gradient-accent: linear-gradient(135deg, #0077C0, #C7EEFF);
 }
 
 body {
@@ -27,6 +27,15 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+/* Additional color utilities */
+:root {
+  --tag-bg: #0077C0;
+  --link-color: #0077C0;
+  --link-hover: #005A94;
+  --border-color: #E5E7EB;
+  --card-bg: #FFFFFF;
 }
 
 #root {

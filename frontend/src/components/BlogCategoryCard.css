@@ -16,7 +16,7 @@
 .blog-category-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
-  border-color: #333333;
+  border-color: var(--primary-color);
 }
 
 .blog-category-icon {

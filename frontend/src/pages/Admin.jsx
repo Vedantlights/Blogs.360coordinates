@@ -409,7 +409,7 @@ function Admin() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {username && (
-            <span style={{ color: '#666', fontSize: '0.9rem' }}>
+            <span style={{ color: '#6B7280', fontSize: '0.9rem' }}>
               Welcome, <strong>{username}</strong>
             </span>
           )}
@@ -417,7 +417,7 @@ function Admin() {
             onClick={handleLogout}
             style={{
               padding: '0.5rem 1rem',
-              background: '#dc3545',
+              background: '#CC0000',
               color: 'white',
               border: 'none',
               borderRadius: '4px',
@@ -439,13 +439,13 @@ function Admin() {
             </h2>
             
             {success && (
-              <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#d4edda', color: '#155724', borderRadius: '4px' }}>
+              <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#C7EEFF', color: '#0077C0', borderRadius: '4px' }}>
                 {success}
               </div>
             )}
             
             {error && (
-              <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#f8d7da', color: '#721c24', borderRadius: '4px' }}>
+              <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#FFE5E5', color: '#CC0000', borderRadius: '4px' }}>
                 {error}
               </div>
             )}
@@ -477,7 +477,7 @@ function Admin() {
                   placeholder="blog-slug-url"
                   required
                 />
-                <small style={{ color: '#666', fontSize: '0.875rem' }}>URL-friendly version of title</small>
+                <small style={{ color: '#6B7280', fontSize: '0.875rem' }}>URL-friendly version of title</small>
               </div>
 
               <div className="form-group">
@@ -542,7 +542,7 @@ function Admin() {
                         <img 
                           src={previewUrl} 
                           alt="Preview" 
-                          style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ddd' }}
+                          style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #E5E7EB' }}
                           onError={(e) => {
                             console.error('Image failed to load:', e.target.src)
                             e.target.style.display = 'none'
@@ -583,7 +583,7 @@ function Admin() {
                         <img 
                           src={previewUrl} 
                           alt="Preview" 
-                          style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ddd' }}
+                          style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #E5E7EB' }}
                           onError={(e) => {
                             console.error('Featured image failed to load:', e.target.src)
                             e.target.style.display = 'none'
@@ -718,7 +718,7 @@ function Admin() {
                   placeholder="sell"
                   required
                 />
-                <small style={{ color: '#666', fontSize: '0.875rem' }}>URL-friendly version</small>
+                <small style={{ color: '#6B7280', fontSize: '0.875rem' }}>URL-friendly version</small>
               </div>
 
               <div className="form-group">

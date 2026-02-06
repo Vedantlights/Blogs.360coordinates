@@ -44,7 +44,7 @@
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: #333333;
+  background: var(--primary-color);
   border-radius: 2px;
 }
 
