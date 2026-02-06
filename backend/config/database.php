@@ -41,7 +41,7 @@ if (empty($_ENV['DB_PASS']) && file_exists($dbConfigFile)) {
     $_ENV['DB_HOST'] = $_ENV['DB_HOST'] ?? $dbConfig['DB_HOST'] ?? 'localhost';
     $_ENV['DB_NAME'] = $_ENV['DB_NAME'] ?? $dbConfig['DB_NAME'] ?? 'u449667423_Blogsdata';
     $_ENV['DB_USER'] = $_ENV['DB_USER'] ?? $dbConfig['DB_USER'] ?? 'u449667423_blogsdata';
-    $_ENV['DB_PASS'] = $dbConfig['DB_PASS'] ?? '';
+    $_ENV['DB_PASS'] = $dbConfig['DB_PASS'] ?? 'Shital@765';
     $_ENV['DB_CHARSET'] = $_ENV['DB_CHARSET'] ?? $dbConfig['DB_CHARSET'] ?? 'utf8mb4';
 }
 
@@ -49,7 +49,7 @@ if (empty($_ENV['DB_PASS']) && file_exists($dbConfigFile)) {
 define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
 define('DB_NAME', $_ENV['DB_NAME'] ?? 'u449667423_Blogsdata');
 define('DB_USER', $_ENV['DB_USER'] ?? 'u449667423_blogsdata');
-define('DB_PASS', $_ENV['DB_PASS'] ?? '');
+define('DB_PASS', $_ENV['DB_PASS'] ?? 'Shital@765');
 define('DB_CHARSET', $_ENV['DB_CHARSET'] ?? 'utf8mb4');
 
 /**

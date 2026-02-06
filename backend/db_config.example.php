@@ -7,6 +7,6 @@ return [
     'DB_HOST'    => 'localhost',
     'DB_NAME'    => 'u449667423_Blogsdata',
     'DB_USER'    => 'u449667423_blogsdata',
-    'DB_PASS'    => 'your_password',
+    'DB_PASS'    => 'Shital@765',
     'DB_CHARSET' => 'utf8mb4',
 ];
