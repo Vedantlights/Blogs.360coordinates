@@ -1,7 +1,11 @@
 {
   "files": {
     "main.css": "/static/css/main.20de596e.css",
+<<<<<<< Updated upstream
     "main.js": "/static/js/main.bf40e605.js",
+=======
+    "main.js": "/static/js/main.a091dbfe.js",
+>>>>>>> Stashed changes
     "static/css/424.aa0d9c2b.chunk.css": "/static/css/424.aa0d9c2b.chunk.css",
     "static/js/424.a28f3403.chunk.js": "/static/js/424.a28f3403.chunk.js",
     "static/css/98.0f07d234.chunk.css": "/static/css/98.0f07d234.chunk.css",
@@ -30,7 +34,11 @@
     "static/js/803.8d2f47c2.chunk.js": "/static/js/803.8d2f47c2.chunk.js",
     "index.html": "/index.html",
     "main.20de596e.css.map": "/static/css/main.20de596e.css.map",
+<<<<<<< Updated upstream
     "main.bf40e605.js.map": "/static/js/main.bf40e605.js.map",
+=======
+    "main.a091dbfe.js.map": "/static/js/main.a091dbfe.js.map",
+>>>>>>> Stashed changes
     "424.aa0d9c2b.chunk.css.map": "/static/css/424.aa0d9c2b.chunk.css.map",
     "424.a28f3403.chunk.js.map": "/static/js/424.a28f3403.chunk.js.map",
     "98.0f07d234.chunk.css.map": "/static/css/98.0f07d234.chunk.css.map",
@@ -60,6 +68,10 @@
   },
   "entrypoints": [
     "static/css/main.20de596e.css",
+<<<<<<< Updated upstream
     "static/js/main.bf40e605.js"
+=======
+    "static/js/main.a091dbfe.js"
+>>>>>>> Stashed changes
   ]
 }
