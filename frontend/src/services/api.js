@@ -45,8 +45,12 @@ api.interceptors.response.use(
         }
       }
       
+      const errMsg = data?.error || data?.message || 'An error occurred';
+      const hint = data?.hint;
       return Promise.reject({
-        message: data?.message || 'An error occurred',
+        message: hint ? `${errMsg} (${hint})` : errMsg,
+        error: data?.error,
+        hint: data?.hint,
         status,
         errors: data?.errors || {},
       });

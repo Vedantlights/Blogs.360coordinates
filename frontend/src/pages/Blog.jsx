@@ -103,6 +103,7 @@ function Blog() {
       }
     } catch (err) {
       console.error('Error fetching categories:', err)
+      setError(err?.message || err?.error || 'Failed to load categories')
     }
   }
 
