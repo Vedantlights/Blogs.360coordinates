@@ -45,7 +45,7 @@
 }
 
 .welcome-link strong {
-  color: var(--accent-color);
+  color: #39c3ff;
   font-weight: 600;
   cursor: pointer;
 }

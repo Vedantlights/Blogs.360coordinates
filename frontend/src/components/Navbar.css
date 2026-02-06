@@ -50,14 +50,11 @@
 }
 
 .logo img {
-  height: 68px;
+  height: 130px;
   width: auto;
   display: block;
 }
 
-.logo:hover {
-  transform: scale(1.05);
-}
 
 .navbar nav {
   display: flex;
