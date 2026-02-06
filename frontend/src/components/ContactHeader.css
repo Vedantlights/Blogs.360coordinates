@@ -8,7 +8,7 @@
 .contact-title {
   font-family: 'Inter', sans-serif;
   -webkit-text-fill-color: transparent;
-  background: var(--gradient-accent);
+  background: #005a94;
   -webkit-background-clip: text;
   background-clip: text;
   font-size: clamp(2rem, 5vw, 3.5rem);

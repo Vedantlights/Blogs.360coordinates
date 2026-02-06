@@ -12,7 +12,7 @@
   font-family: 'Playfair Display', serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
-  color: var(--primary-color);
+  color: #024a78;
   margin-bottom: 30px;
   text-align: center;
 }
