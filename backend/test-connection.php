@@ -3,7 +3,7 @@
  * Database Connection Test Script
  * 
  * Use this script to test database connectivity after deployment
- * Access via: https://blogs.indiapropertys.com/backend/test-connection.php
+ * Access via: https://blogs.360coordinates.com/backend/test-connection.php
  * 
  * SECURITY: Delete this file after testing in production!
  */

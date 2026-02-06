@@ -95,5 +95,5 @@ src/
 
 ## License
 
-Copyright © 2026 blogs.indiapropertys.com
+Copyright © 2026 blogs.360coordinates.com
 

@@ -4,7 +4,7 @@ Quick reference card for all available API endpoints.
 
 ## 🌐 Base URL
 ```
-http://yourdomain.com/backend/api
+https://blogs.360coordinates.com/backend/api
 ```
 
 ## 📚 Public Endpoints

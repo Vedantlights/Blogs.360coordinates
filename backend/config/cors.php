@@ -15,10 +15,10 @@ $allowedOrigins = [
     'http://127.0.0.1:5173',
     'http://localhost',
     // Production
-    'https://blogs.indiapropertys.com',
-    'https://www.blogs.indiapropertys.com',
-    'https://indiapropertys.com',
-    'https://www.indiapropertys.com',
+    'https://blogs.360coordinates.com',
+    'https://www.blogs.360coordinates.com',
+    'https://360coordinates.com',
+    'https://www.360coordinates.com',
 ];
 
 // Get the origin from the request

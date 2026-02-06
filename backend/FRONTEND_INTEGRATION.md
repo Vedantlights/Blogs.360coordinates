@@ -13,7 +13,7 @@ Create a config file in your React app (e.g., `src/config/api.js`):
 export const API_BASE_URL = 'http://localhost/backend/api';
 
 // Production (update with your domain)
-// export const API_BASE_URL = 'https://yourdomain.com/backend/api';
+// export const API_BASE_URL = 'https://blogs.360coordinates.com/backend/api';
 ```
 
 ### 2. API Service Functions

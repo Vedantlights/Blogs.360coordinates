@@ -4,7 +4,7 @@
 
 The API configuration automatically detects the environment:
 
-- **Production**: `https://blogs.indiapropertys.com/backend/api`
+- **Production**: `https://blogs.360coordinates.com/backend/api`
 - **Development**: `http://localhost/backend/api`
 
 ## 🚨 Common Errors & Solutions
@@ -16,22 +16,22 @@ The API configuration automatically detects the environment:
 **Solutions:**
 
 1. **Check Backend is Running**
-   - Ensure PHP backend is accessible at: `https://blogs.indiapropertys.com/backend/api`
-   - Test directly: Visit `https://blogs.indiapropertys.com/backend/api/blogs` in browser
+   - Ensure PHP backend is accessible at: `https://blogs.360coordinates.com/backend/api`
+   - Test directly: Visit `https://blogs.360coordinates.com/backend/api/blogs` in browser
 
 2. **Check API URL Configuration**
    - Verify `frontend/src/config/api.js` has correct production URL
    - Current auto-detection should work, but you can override with:
    ```javascript
-   export const API_BASE_URL = 'https://blogs.indiapropertys.com/backend/api';
+   export const API_BASE_URL = 'https://blogs.360coordinates.com/backend/api';
    ```
 
 3. **Check CORS Settings**
    - Update `backend/config/cors.php` to allow your domain:
    ```php
    $allowedOrigins = [
-       'https://blogs.indiapropertys.com',
-       'https://www.blogs.indiapropertys.com',
+       'https://blogs.360coordinates.com',
+       'https://www.blogs.360coordinates.com',
    ];
    ```
 
@@ -66,17 +66,17 @@ The API configuration automatically detects the environment:
 
 ```bash
 # Test blogs endpoint
-curl https://blogs.indiapropertys.com/backend/api/blogs
+curl https://blogs.360coordinates.com/backend/api/blogs
 
 # Test categories
-curl https://blogs.indiapropertys.com/backend/api/categories
+curl https://blogs.360coordinates.com/backend/api/categories
 ```
 
 ### Test from Browser Console
 
 ```javascript
 // Test API connection
-fetch('https://blogs.indiapropertys.com/backend/api/blogs')
+fetch('https://blogs.360coordinates.com/backend/api/blogs')
   .then(res => res.json())
   .then(data => console.log('Success:', data))
   .catch(err => console.error('Error:', err));
@@ -88,13 +88,13 @@ If your backend is on a different domain/subdomain:
 
 1. Update `frontend/src/config/api.js`:
    ```javascript
-   export const API_BASE_URL = 'https://api.indiapropertys.com/api';
+   export const API_BASE_URL = 'https://blogs.360coordinates.com/backend/api';
    ```
 
 2. Update CORS in `backend/config/cors.php`:
    ```php
    $allowedOrigins = [
-       'https://blogs.indiapropertys.com',
+       'https://blogs.360coordinates.com',
    ];
    ```
 
@@ -104,7 +104,7 @@ For React apps, you can use environment variables:
 
 1. Create `.env.production` in `frontend/`:
    ```
-   REACT_APP_API_URL=https://blogs.indiapropertys.com/backend/api
+   REACT_APP_API_URL=https://blogs.360coordinates.com/backend/api
    ```
 
 2. Create `.env.development` in `frontend/`:

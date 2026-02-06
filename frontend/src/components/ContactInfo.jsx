@@ -13,8 +13,8 @@ function ContactInfo() {
         </div>
         <div className="contact-info-item">
           <label className="contact-info-label">Email</label>
-          <a href="mailto:info@indiapropertys.com" className="contact-info-value">
-            info@indiapropertys.com
+          <a href="mailto:info@360coordinates.com" className="contact-info-value">
+            info@360coordinates.com
           </a>
         </div>
         <div className="contact-info-item">

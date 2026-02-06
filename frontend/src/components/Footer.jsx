@@ -18,7 +18,7 @@ function Footer() {
           <Link to="/contact">Support</Link>
         </div>
         <p className="copyright">
-          Copyright © 2026 blogs.indiapropertys.com | Powered by Astra WordPress Theme
+          Copyright © 2026 blogs.360coordinates.com | Powered by Astra WordPress Theme
         </p>
         <button className="scroll-top" onClick={scrollToTop}>
           Scroll to Top

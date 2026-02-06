@@ -29,7 +29,7 @@ Example: `20260115_164830_abc123def456.jpg`
 
 Uploaded images are accessible via:
 ```
-http://yourdomain.com/backend/uploads/images/filename.jpg
+https://blogs.360coordinates.com/backend/uploads/images/filename.jpg
 ```
 
 ## Notes

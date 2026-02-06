@@ -18,8 +18,8 @@ function Privacy() {
           <p className="intro-text">
             Welcome to <strong>Indiapropertys</strong>, owned and operated by Mr. Sudhakar Poul & Company, 
             located in Ambegaon BK, Pune, India. By accessing or using our website{' '}
-            <a href="http://www.indiapropertys.com" target="_blank" rel="noopener noreferrer">
-              www.indiapropertys.com
+            <a href="https://www.360coordinates.com" target="_blank" rel="noopener noreferrer">
+              www.360coordinates.com
             </a>{' '}
             and services, you agree to this Privacy Policy. Please read it carefully before proceeding.
           </p>
@@ -182,7 +182,7 @@ function Privacy() {
             <div className="contact-details">
               <p><strong>Indiapropertys – Mr. Sudhakar Poul & Company</strong></p>
               <p>Ambegaon BK, Pune, Maharashtra, India</p>
-              <p>Email: <a href="mailto:info@indiapropertys.com">info@indiapropertys.com</a></p>
+              <p>Email: <a href="mailto:info@360coordinates.com">info@360coordinates.com</a></p>
               <p>Phone: <a href="tel:+919860638920">+91 98606 38920</a></p>
             </div>
           </section>

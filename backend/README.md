@@ -78,7 +78,7 @@ location /backend {
 
 ### Base URL
 ```
-http://yourdomain.com/backend/api/
+https://blogs.360coordinates.com/backend/api/
 ```
 
 ### Public Endpoints
@@ -96,7 +96,7 @@ GET /api/blogs
 
 **Example:**
 ```javascript
-fetch('http://yourdomain.com/backend/api/blogs?page=1&per_page=10&featured=true')
+fetch('https://blogs.360coordinates.com/backend/api/blogs?page=1&per_page=10&featured=true')
   .then(res => res.json())
   .then(data => console.log(data));
 ```
@@ -140,7 +140,7 @@ GET /api/blogs/{slug}
 
 **Example:**
 ```javascript
-fetch('http://yourdomain.com/backend/api/blogs/is-2026-right-time-invest-indian-real-estate')
+fetch('https://blogs.360coordinates.com/backend/api/blogs/is-2026-right-time-invest-indian-real-estate')
   .then(res => res.json())
   .then(data => console.log(data));
 ```
@@ -176,7 +176,7 @@ GET /api/categories
 
 **Example:**
 ```javascript
-fetch('http://yourdomain.com/backend/api/categories')
+fetch('https://blogs.360coordinates.com/backend/api/categories')
   .then(res => res.json())
   .then(data => console.log(data));
 ```
@@ -217,7 +217,7 @@ POST /api/contact
 
 **Example:**
 ```javascript
-fetch('http://yourdomain.com/backend/api/contact', {
+fetch('https://blogs.360coordinates.com/backend/api/contact', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -343,7 +343,7 @@ GET /api/admin/contact-messages
 
 ```javascript
 // Base URL configuration
-const API_BASE_URL = 'http://yourdomain.com/backend/api';
+const API_BASE_URL = 'https://blogs.360coordinates.com/backend/api';
 
 // Get all blogs
 async function getBlogs(page = 1, perPage = 10, category = null, featured = null) {
@@ -390,7 +390,7 @@ async function submitContact(data) {
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://yourdomain.com/backend/api',
+  baseURL: 'https://blogs.360coordinates.com/backend/api',
   headers: {
     'Content-Type': 'application/json'
   }

@@ -14,7 +14,7 @@ localhost/backend/api/blogs:1
 **Solution:** Ensure your PHP backend server is running and accessible.
 
 **Check:**
-- Visit `https://blogs.indiapropertys.com/backend/api/blogs` directly in browser
+- Visit `https://blogs.360coordinates.com/backend/api/blogs` directly in browser
 - Should return JSON, not 404 or connection error
 
 #### 2. **Wrong API URL**
@@ -25,7 +25,7 @@ localhost/backend/api/blogs:1
 **Manual Override:**
 ```javascript
 // In frontend/src/config/api.js
-export const API_BASE_URL = 'https://blogs.indiapropertys.com/backend/api';
+export const API_BASE_URL = 'https://blogs.360coordinates.com/backend/api';
 ```
 
 #### 3. **Backend Path Incorrect**
@@ -33,7 +33,7 @@ export const API_BASE_URL = 'https://blogs.indiapropertys.com/backend/api';
 
 **Test:**
 ```bash
-curl https://blogs.indiapropertys.com/backend/api/blogs
+curl https://blogs.360coordinates.com/backend/api/blogs
 ```
 
 #### 4. **CORS Issues**
@@ -41,7 +41,7 @@ curl https://blogs.indiapropertys.com/backend/api/blogs
 
 **Verify:** Check `backend/config/cors.php` includes:
 ```php
-'https://blogs.indiapropertys.com',
+'https://blogs.360coordinates.com',
 ```
 
 ## 🔍 Debugging Steps
@@ -50,7 +50,7 @@ curl https://blogs.indiapropertys.com/backend/api/blogs
 
 Open browser and visit:
 ```
-https://blogs.indiapropertys.com/backend/api/blogs
+https://blogs.360coordinates.com/backend/api/blogs
 ```
 
 **Expected:** JSON response with blogs
@@ -81,7 +81,7 @@ Check `frontend/src/config/api.js`:
 console.log('API Base URL:', API_BASE_URL);
 ```
 
-Should show: `https://blogs.indiapropertys.com/backend/api`
+Should show: `https://blogs.360coordinates.com/backend/api`
 
 ## 🛠️ Quick Fixes
 
@@ -89,7 +89,7 @@ Should show: `https://blogs.indiapropertys.com/backend/api`
 
 Edit `frontend/src/config/api.js`:
 ```javascript
-export const API_BASE_URL = 'https://blogs.indiapropertys.com/backend/api';
+export const API_BASE_URL = 'https://blogs.360coordinates.com/backend/api';
 ```
 
 Then rebuild:
@@ -146,7 +146,7 @@ Ensure:
 
 ## ✅ Verification Checklist
 
-- [ ] Backend accessible at: `https://blogs.indiapropertys.com/backend/api`
+- [ ] Backend accessible at: `https://blogs.360coordinates.com/backend/api`
 - [ ] API returns JSON (not HTML error page)
 - [ ] CORS headers present in response
 - [ ] Frontend API URL points to production
@@ -164,10 +164,10 @@ Ensure:
 2. **Test API Endpoints:**
    ```bash
    # Test blogs
-   curl https://blogs.indiapropertys.com/backend/api/blogs
+   curl https://blogs.360coordinates.com/backend/api/blogs
    
    # Test categories
-   curl https://blogs.indiapropertys.com/backend/api/categories
+   curl https://blogs.360coordinates.com/backend/api/categories
    ```
 
 3. **Verify File Structure:**

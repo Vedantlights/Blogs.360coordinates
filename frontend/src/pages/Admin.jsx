@@ -183,7 +183,7 @@ function Admin() {
     }
     // If it's a relative path starting with /backend, construct full URL
     if (url.startsWith('/backend/')) {
-      // Extract base URL from API_BASE_URL (e.g., https://blogs.indiapropertys.com)
+      // Extract base URL from API_BASE_URL (e.g., https://blogs.360coordinates.com)
       const baseUrl = API_BASE_URL.replace('/backend/api', '')
       return baseUrl + url
     }

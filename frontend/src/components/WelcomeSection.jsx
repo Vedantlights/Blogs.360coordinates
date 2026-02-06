@@ -7,8 +7,8 @@ function WelcomeSection() {
         <h2 className="welcome-title">Welcome to Indiaproperty's</h2>
         <div className="welcome-content">
           <p>
-            <a href="https://www.indiapropertys.com" target="_blank" rel="noopener noreferrer" className="welcome-link">
-              <strong>www.indiapropertys.com</strong>
+            <a href="https://www.360coordinates.com" target="_blank" rel="noopener noreferrer" className="welcome-link">
+              <strong>www.360coordinates.com</strong>
             </a> is your trusted real estate platform, 
             dedicated to simplifying property transactions and helping you find your perfect home or investment. 
             Our vision is to make real estate accessible, transparent, and hassle-free for everyone.

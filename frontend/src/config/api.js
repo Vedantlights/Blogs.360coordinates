@@ -11,8 +11,8 @@ const getApiBaseUrl = () => {
     const hostname = window.location.hostname;
     
     // Production domain
-    if (hostname === 'blogs.indiapropertys.com' || hostname.includes('indiapropertys.com')) {
-      return 'https://blogs.indiapropertys.com/backend/api';
+    if (hostname === 'blogs.360coordinates.com' || hostname.includes('360coordinates.com')) {
+      return 'https://blogs.360coordinates.com/backend/api';
     }
     
     // Development (localhost)

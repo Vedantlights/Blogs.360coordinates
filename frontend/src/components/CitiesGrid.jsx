@@ -1,7 +1,7 @@
 import './CitiesGrid.css'
 
 function CitiesGrid() {
-  const mainSiteUrl = 'https://www.indiapropertys.com/'
+  const mainSiteUrl = 'https://www.360coordinates.com/'
 
   const cities = [
     { name: 'MUMBAI', image: 'Mumbai.png' },

@@ -21,7 +21,7 @@ The `backend/config/database.php` file automatically loads these credentials fro
 To test if the database connection works, you can:
 
 1. **Via Test Script (Recommended):**
-   - Visit: `https://blogs.indiapropertys.com/backend/test-connection.php`
+   - Visit: `https://blogs.360coordinates.com/backend/test-connection.php`
    - This script will check:
      - `.env` file exists and is readable
      - Database configuration is loaded
@@ -32,7 +32,7 @@ To test if the database connection works, you can:
    - **⚠️ SECURITY:** Delete this file after testing in production!
 
 2. **Via Health Check API:**
-   - Visit: `https://blogs.indiapropertys.com/backend/api/health`
+   - Visit: `https://blogs.360coordinates.com/backend/api/health`
    - Returns JSON with database connection status
 
 3. **Via PHP Code:**
