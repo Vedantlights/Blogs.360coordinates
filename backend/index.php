@@ -13,6 +13,22 @@ error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 
+// Global exception handler - return JSON for API errors instead of blank 500
+set_exception_handler(function (Throwable $e) {
+    error_log("Uncaught Exception: " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine());
+    http_response_code(500);
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Server error',
+        'error' => $e->getMessage(),
+        'hint' => strpos($e->getMessage(), 'SQLSTATE') !== false
+            ? 'Check database credentials in .env (DB_HOST, DB_NAME, DB_USER, DB_PASS) and ensure tables exist.'
+            : null
+    ], JSON_UNESCAPED_SLASHES);
+    exit();
+});
+
 // Get the request URI and parse it
 $requestUri = $_SERVER['REQUEST_URI'];
 $scriptName = $_SERVER['SCRIPT_NAME'];
