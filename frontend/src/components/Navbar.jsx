@@ -48,7 +48,7 @@ function Navbar() {
     <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="logo">
         <Link to="/">
-          <img src="/images/logo.png" alt="Logo" loading="eager" />
+          <img src="/images/logoo.png" alt="Logo" loading="eager" />
         </Link>
       </div>
       <button 
