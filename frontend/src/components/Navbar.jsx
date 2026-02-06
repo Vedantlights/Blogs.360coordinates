@@ -4,6 +4,7 @@ import './Navbar.css'
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
   const location = useLocation()
 
   const toggleMenu = () => {
@@ -13,6 +14,16 @@ function Navbar() {
   useEffect(() => {
     setIsMenuOpen(false)
   }, [location])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY
+      setIsScrolled(scrollPosition > 10)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -34,7 +45,7 @@ function Navbar() {
   }
 
   return (
-    <header className="navbar">
+    <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="logo">
         <Link to="/">
           <img src="/images/logo.png" alt="Logo" loading="eager" />

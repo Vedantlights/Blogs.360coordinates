@@ -1,10 +1,10 @@
 .navbar {
-  background: var(--primary-color);
+  background: #ffffff;
   padding: 18px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 20px rgba(29, 36, 43, 0.12);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -13,8 +13,13 @@
   height: 90px;
 }
 
+.navbar.scrolled {
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(29, 36, 43, 0.12);
+}
+
 .navbar:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 4px 20px rgba(29, 36, 43, 0.12);
 }
 
 .menu-toggle {
@@ -30,7 +35,7 @@
 .menu-toggle span {
   width: 25px;
   height: 3px;
-  background: var(--white);
+  background: #1D242B;
   border-radius: 3px;
   transition: all 0.3s ease;
 }
@@ -61,7 +66,7 @@
 }
 
 .navbar a {
-  color: var(--white);
+  color: #1D242B;
   text-decoration: none;
   font-weight: 500;
   font-size: 15px;
@@ -77,12 +82,12 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--accent-color);
+  background: linear-gradient(90deg, #0077C0 0%, #C7EEFF 100%);
   transition: width 0.3s ease;
 }
 
 .navbar a:hover {
-  color: var(--accent-color);
+  color: #C7EEFF;
   transform: translateY(-2px);
 }
 
@@ -91,11 +96,12 @@
 }
 
 .navbar a.active {
-  color: var(--accent-color);
+  color: #0077C0;
 }
 
 .navbar a.active::after {
   width: 100%;
+  background: linear-gradient(90deg, #0077C0 0%, #C7EEFF 100%);
 }
 
 @media (max-width: 768px) {
@@ -115,7 +121,7 @@
     gap: 0;
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(29, 36, 43, 0.1);
   }
 
   .navbar nav.active {
@@ -125,7 +131,7 @@
   .navbar nav a {
     padding: 12px 0;
     margin: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(29, 36, 43, 0.05);
   }
 
   .navbar nav a::after {
