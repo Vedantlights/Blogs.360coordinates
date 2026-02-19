@@ -6,9 +6,9 @@ The database credentials are configured in `backend/.env`:
 
 ```
 DB_HOST=localhost
-DB_NAME=u449667423_Blogs
-DB_USER=u449667423_sneha
-DB_PASS=Blogs@2026
+DB_NAME=u449667423_Blogsdata
+DB_USER=u449667423_blogsdata
+DB_PASS=Shital@765
 DB_CHARSET=utf8mb4
 ```
 
@@ -62,20 +62,20 @@ To test if the database connection works, you can:
 
 1. **Check database exists:**
    ```sql
-   SHOW DATABASES LIKE 'u449667423_Blogs';
+   SHOW DATABASES LIKE 'u449667423_Blogsdata';
    ```
 
 2. **Check user permissions:**
    ```sql
-   SHOW GRANTS FOR 'u449667423_sneha'@'localhost';
+   SHOW GRANTS FOR 'u449667423_blogsdata'@'localhost';
    ```
 
 3. **Check MySQL service is running**
 
 4. **Verify credentials:**
-   - Database name: `u449667423_Blogs`
-   - Username: `u449667423_sneha`
-   - Password: `Blogs@2026`
+   - Database name: `u449667423_Blogsdata`
+   - Username: `u449667423_blogsdata`
+   - Password: `Shital@765`
 
 ### Remote Database
 
